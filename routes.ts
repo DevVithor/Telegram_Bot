@@ -1,15 +1,27 @@
 import { Router } from "express";
-import { getPage } from "./src/core/UseCase/GetPageUseCase.ts";
 import { createScriptController } from "./src/infra/controller/CreateScriptController/index.js";
+import { findScriptController } from "./src/infra/controller/FindScriptController/index.js";
+import { startBotController } from "./src/infra/controller/StartBotController/index.js";
+import { createGroupController } from "./src/infra/controller/CreateGroupController/index.js";
+import { findGroupController } from "./src/infra/controller/FindGroupController/index.js";
 
 const route = Router()
 
 route
-    .get("/", (req, res) =>
-        getPage.execute(req, res)
+    .get("/find/:id", (req, res) =>
+        findScriptController.execute(req, res)
+    )
+    .get("/find/group/:id", (req, res) =>
+        findGroupController.execute(req, res)
     )
     .post("/create/Product", (req, res) =>
         createScriptController.execute(req, res)
+    )
+    .get("/script", (req, res) =>
+        startBotController.execute(req, res)
+    )
+    .post("/group/create", (req, res) =>
+        createGroupController.execute(req, res)
     )
 
 export default route
