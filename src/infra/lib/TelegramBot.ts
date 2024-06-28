@@ -1,4 +1,4 @@
-import { Bot } from "grammy";
+import { Telegraf } from "telegraf";
 
-export const bot = new Bot(`${process.env.TELEGRAM_TOKEN}`);
+export const bot = new Telegraf(`${process.env.TELEGRAM_TOKEN}`);
 
