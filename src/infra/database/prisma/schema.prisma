@@ -7,9 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Group {
+  id        Int        @id @default(autoincrement())
+  name      String
+  products  Products[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
 model Products {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   link        String
   product     String
   description String
+  Group       Group    @relation(fields: [groupId], references: [id])
+  groupId     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
