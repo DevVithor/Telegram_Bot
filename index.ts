@@ -1,7 +1,7 @@
 import "dotenv/config"
-import { start } from "./src/core/UseCase/StartBotUseCase/LayoutBotUseCase"
-import express from "express"
-import route from "./routes"
+import route from "./routes.js";
+import { bot } from "./src/infra/lib/TelegramBot.js";
+import express from "express";
 
 const app = express()
 app.use(express.json())
@@ -10,7 +10,7 @@ const port = 3333;
 
 app.use(route)
 
-start
+bot.launch()
 
 app.listen(port, () => {
     console.log(`Running on port ${port}`)
