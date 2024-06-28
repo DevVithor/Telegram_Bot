@@ -1,6 +1,6 @@
-import { CreateScriptUseCase } from "../../../core/UseCase/CreateScriptUseCase/CreateScriptUseCase";
+import { CreateScriptUseCase } from "../../../core/UseCase/CreateScriptUseCase/CreateScriptUseCase.js";
 import { Request, Response } from "express"
-import { dataDTO } from "../../../core/UseCase/CreateScriptUseCase/dataDTO";
+import { dataDTO } from "../../../core/UseCase/CreateScriptUseCase/dataDTO.js";
 
 export class CreateScriptController {
     constructor(private createScript: CreateScriptUseCase) { }

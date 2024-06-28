@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { dataDTO } from "./dataDTO";
+import { dataDTO } from "./dataDTO.js";
 
 export class CreateScriptUseCase {
     constructor(private prismaClient: PrismaClient) { }
@@ -10,21 +10,11 @@ export class CreateScriptUseCase {
             data: {
                 link: data.link,
                 product: data.product,
-                description: data.description
+                description: data.description,
+                groupId: data.groupId,
             }
         })
 
-        // const script =
-        //     `
-        // 🎊Bem-Vindo as Promoções🎊
-
-        // Promoção do dia!💰💸
-        // ${createProduct.Product}
-        // ${createProduct.description}
-        // ${createLink.id}
-        // `
-
-        // return script
-        return { createProduct }
+        return createProduct
     }
 }
