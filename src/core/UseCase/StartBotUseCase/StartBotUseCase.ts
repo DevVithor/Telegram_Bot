@@ -48,7 +48,7 @@ ${getProducts[i].link}
 
                 await bot.telegram.sendMessage(`${process.env.CHAT_ID}`, script)
 
-                await deley(60000)
+                await deley(43200000)
 
             }
 
