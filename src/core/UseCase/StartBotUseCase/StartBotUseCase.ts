@@ -25,29 +25,43 @@ export class StartBotUseCase {
             }, select: {
                 product: true,
                 description: true,
-                link: true
+                link: true,
+                descont: true,
             }
         })
 
-        for (let i = 0; getProducts.length > i; i++) {
+        const validity = findGroup.validity
 
-            const script = `
-                🎊Bem-Vindo as Promoções🎊
+        while (validity) {
 
-                Promoção do dia ${getProducts[i].product}💰💸
-                ${getProducts[i].description}
-                ${getProducts[i].link}
+            for (let i = 0; getProducts.length > i; i++) {
+
+                const script = `
+${getProducts[i].product}
+
+${getProducts[i].description}
+
+${getProducts[i].descont}
+
+${getProducts[i].link}
                 `
 
-            await bot.telegram.sendMessage("@VithorChatBot", script)
+                await bot.telegram.sendMessage(`${process.env.CHAT_ID}`, script)
 
-            await deley(2000)
+                await deley(60000)
+
+            }
+
+            let data = new Date()
+
+            if (data > findGroup.validity) {
+
+                return
+            }
 
         }
-
         return
     }
-
 
 }
 
