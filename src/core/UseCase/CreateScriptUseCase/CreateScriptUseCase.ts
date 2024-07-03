@@ -10,6 +10,7 @@ export class CreateScriptUseCase {
             data: {
                 link: data.link,
                 product: data.product,
+                descont: data.descont,
                 description: data.description,
                 groupId: data.groupId,
             }
