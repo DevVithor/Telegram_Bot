@@ -8,20 +8,25 @@ datasource db {
 }
 
 model Group {
-  id        Int        @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
-  products  Products[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  validity  DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Products[]
 }
 
 model Products {
-  id          Int      @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
+  groupId     Int
   link        String
   product     String
+  descont     String
   description String
-  Group       Group    @relation(fields: [groupId], references: [id])
-  groupId     Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Group Group @relation(fields: [groupId], references: [id])
 }

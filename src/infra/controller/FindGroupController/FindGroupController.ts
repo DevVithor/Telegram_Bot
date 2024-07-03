@@ -1,15 +1,21 @@
-import { FindGroupUseCase } from "../../../core/UseCase/FindGroupUseCase/FindGroupUseCase.js";
-import { Request, Response } from "express"
+import { PrismaClient } from "@prisma/client";
+import { Response } from "express"
 
 export class FindGroupController {
-    constructor(private findGroup: FindGroupUseCase) { }
+    constructor(private prismaClient: PrismaClient) { }
 
-    async execute(req: Request, res: Response) {
+    async execute(res: Response) {
 
-        const { id } = req.params
+        const groups = await this.prismaClient.group.findMany({
+            select: {
+                id: true,
+                name: true,
+                validity: true,
 
-        const result = await this.findGroup.execute(Number(id))
-        res.status(200).json(result)
+            }
+        })
+
+        return res.status(200).json(groups)
 
     }
 }
