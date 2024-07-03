@@ -8,11 +8,11 @@ import { findGroupController } from "./src/infra/controller/FindGroupController/
 const route = Router()
 
 route
+    .get("/find/group", (req, res) =>
+        findGroupController.execute(res)
+    )
     .get("/find/:id", (req, res) =>
         findScriptController.execute(req, res)
-    )
-    .get("/find/group/:id", (req, res) =>
-        findGroupController.execute(req, res)
     )
     .post("/create/Product", (req, res) =>
         createScriptController.execute(req, res)
