@@ -37,6 +37,7 @@ export class StartBotUseCase {
             for (let i = 0; getProducts.length > i; i++) {
 
                 const script = `
+                
 ${getProducts[i].product}
 
 ${getProducts[i].description}
