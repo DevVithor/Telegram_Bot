@@ -1,27 +1,31 @@
 import { Router } from "express";
-import { createScriptController } from "./src/infra/controller/CreateScriptController/index.js";
-import { findScriptController } from "./src/infra/controller/FindScriptController/index.js";
 import { startBotController } from "./src/infra/controller/StartBotController/index.js";
-import { createGroupController } from "./src/infra/controller/CreateGroupController/index.js";
-import { findGroupController } from "./src/infra/controller/FindGroupController/index.js";
+import { findGroupController } from "./src/infra/controller/GroupController/FindGroupController/index.js";
+import { findScriptController } from "./src/infra/controller/ScriptController/FindScriptController/index.js";
+import { createGroupController } from "./src/infra/controller/GroupController/CreateGroupController/index.js";
+import { createScriptController } from "./src/infra/controller/ScriptController/CreateScriptUseCase/index.js";
+import { deleteGroupController } from "./src/infra/controller/GroupController/DeleteGroupController/index.js";
 
 const route = Router()
 
 route
-    .get("/find/group", (req, res) =>
-        findGroupController.execute(res)
-    )
-    .get("/find/:id", (req, res) =>
-        findScriptController.execute(req, res)
-    )
-    .post("/create/Product", (req, res) =>
-        createScriptController.execute(req, res)
-    )
-    .get("/script", (req, res) =>
+    .get("/startBot", (req, res) =>
         startBotController.execute(req, res)
+    )
+    .get("/group/find", (req, res) =>
+        findGroupController.execute(req, res)
+    )
+    .get("/script/find", (req, res) =>
+        findScriptController.execute(req, res)
     )
     .post("/group/create", (req, res) =>
         createGroupController.execute(req, res)
     )
+    .post("/script/create", (req, res) =>
+        createScriptController.execute(req, res)
+    )
+    .delete("/group/delete", (req, res) =>
+        deleteGroupController.execute(req, res)
+    );
 
 export default route
