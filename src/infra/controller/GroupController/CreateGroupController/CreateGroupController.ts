@@ -1,4 +1,4 @@
-import { CreateGroupUseCase } from "../../../core/UseCase/CreateGroupUseCase/CreateGroupUseCase.js";
+import { CreateGroupUseCase } from "../../../../core/UseCase/GroupUseCase/CreateGroupUseCase/CreateGroupUseCase.js"
 import { Request, Response } from "express"
 
 export class CreateGroupController {
