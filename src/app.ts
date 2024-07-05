@@ -1,9 +1,9 @@
-import "express-async-error"
+import "express-async-errors"
 import express from "express";
 
 import { errorHandler } from "./middleware/ErrorHandler.js";
-import { bot } from "./infra/lib/TelegramBot.js";
 
+import { bot } from "./infra/lib/TelegramBot.js";
 import botRouter from "./routes/bot.js";
 import groupRouter from "./routes/group.js";
 import scriptRouter from "./routes/script.js";
