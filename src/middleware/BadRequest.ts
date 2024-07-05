@@ -1,8 +1,10 @@
-export class BadRequest extends Error {
-    public readonly statusCode: number
+import { ApiError } from "./ApiError.js"
 
-    constructor(message: string, statusCode: number) {
-        super(message)
-        this.statusCode = statusCode
+export class BadRequest extends ApiError {
+
+    constructor(title: string, detail: string) {
+        super(title)
+        this.statusCode = 400
+        this.detail = detail
     }
 }

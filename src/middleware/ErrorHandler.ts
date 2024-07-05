@@ -1,14 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
+import { ApiError } from './ApiError.js';
 
-export const errorHandler = async (
+export const errorHandler = async (error: ApiError, req: Request, res: Response, next: NextFunction) => {
 
-    error: Error,
-    req: Request,
-    res: Response,
-    next: NextFunction,
+    console.log(error)
+    const statusCode = error.statusCode || 500
+    const title = error.message || "Internal Server Error"
+    const detail = error.detail
 
-) => {
-    const statusCode = 500
-    const message = error.message || "deu erro"
-    return res.status(statusCode).json(message)
-};
+    return res.status(statusCode).json({ title, detail })
+
+}
