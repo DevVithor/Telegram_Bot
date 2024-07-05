@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { BadRequest } from "../../../../middleware/BadRequest.js";
 
 export class DeleteGroupUseCase {
     constructor(private prismaClient: PrismaClient) { }
@@ -11,7 +12,7 @@ export class DeleteGroupUseCase {
             }
         })
         if (!findGroup) {
-            throw new Error("Grupo não existe")
+            throw new BadRequest("Grupo não existe", "O id do grupo não existe, indique um valor valido!")
         }
 
         const deleteGroup = await this.prismaClient.group.delete({

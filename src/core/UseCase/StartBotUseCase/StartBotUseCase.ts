@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { bot } from "../../../infra/lib/TelegramBot.js";
 import { deley } from "../../../infra/lib/Timer.js";
+import { BadRequest } from "../../../middleware/BadRequest.js";
 
 export class StartBotUseCase {
     constructor(private prismaClient: PrismaClient) { }
@@ -16,7 +17,7 @@ export class StartBotUseCase {
 
         if (!findGroup) {
 
-            throw new Error("error")
+            throw new BadRequest("Grupo não existe", "O id do grupo não existe, indique um valor valido!")
         }
 
         const getProducts = await this.prismaClient.products.findMany({

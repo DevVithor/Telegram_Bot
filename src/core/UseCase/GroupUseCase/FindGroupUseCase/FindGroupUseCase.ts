@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { BadRequest } from "../../../../middleware/BadRequest.js";
 
 
 export class FindGroupUseCase {
@@ -13,7 +14,7 @@ export class FindGroupUseCase {
         })
 
         if (!findGroup) {
-            throw new Error("Grupo não existe!")
+            throw new BadRequest("Grupo não existe", "O id do grupo não existe, indique um valor valido!")
         }
 
         return findGroup

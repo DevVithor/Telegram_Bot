@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { BadRequest } from "../../../../middleware/BadRequest.js";
 
 export class FindScriptUseCase {
     constructor(private prismaClient: PrismaClient) { }
@@ -13,7 +14,7 @@ export class FindScriptUseCase {
 
         if (!findScript) {
 
-            throw new Error("Script not exists!")
+            throw new BadRequest("Roteiro não existe", "O id do Roteiro não existe, indique um valor valido!")
 
         }
         return findScript
