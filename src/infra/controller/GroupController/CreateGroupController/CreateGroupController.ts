@@ -6,9 +6,9 @@ export class CreateGroupController {
 
     async execute(req: Request, res: Response) {
 
-        const { name, validity } = req.body
+        const data = req.body
 
-        const result = await this.createGroup.execute(String(name), validity)
+        const result = await this.createGroup.execute(data)
         res.status(201).json(result)
 
     }
