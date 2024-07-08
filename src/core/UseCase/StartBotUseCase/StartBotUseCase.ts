@@ -1,51 +1,41 @@
-import { PrismaClient } from "@prisma/client";
 import { bot } from "../../../infra/lib/TelegramBot.js";
 import { deley } from "../../../infra/lib/Timer.js";
 import { BadRequest } from "../../../middleware/BadRequest.js";
+import { FindGroupRepository } from "../../repository/GroupRepository/FindGroupRepository/FindGroupRepository.js";
+import { FindManyScriptRepository } from "../../repository/ScriptRepository/FindManyScriptRepository/FindManyScriptRepository.js";
 
 export class StartBotUseCase {
-    constructor(private prismaClient: PrismaClient) { }
+    constructor(
+        private findGroupRepository: FindGroupRepository,
+        private findManyScriptRepository: FindManyScriptRepository
+    ) { }
 
     async execute(groupId: number) {
 
-        const findGroup = await this.prismaClient.group.findFirst({
-            where: {
-                id: groupId
-            }
-
-        })
+        const findGroup = await this.findGroupRepository.findGroup(groupId)
 
         if (!findGroup) {
 
             throw new BadRequest("Grupo não existe", "O id do grupo não existe, indique um valor valido!")
         }
 
-        const getProducts = await this.prismaClient.products.findMany({
-            where: {
-                groupId
-            }, select: {
-                product: true,
-                description: true,
-                link: true,
-                descont: true,
-            }
-        })
+        const findScript = await this.findManyScriptRepository.findManyScript(groupId)
 
         const validity = findGroup.validity
 
         while (validity) {
 
-            for (let i = 0; getProducts.length > i; i++) {
+            for (let i = 0; findScript.length > i; i++) {
 
                 const script = `
                 
-${getProducts[i].product}
+${findScript[i].product}
 
-${getProducts[i].description}
+${findScript[i].description}
 
-${getProducts[i].descont}
+${findScript[i].descont}
 
-${getProducts[i].link}
+${findScript[i].link}
                 `
 
                 await bot.telegram.sendMessage(`${process.env.CHAT_ID}`, script)
