@@ -1,22 +1,18 @@
-import { PrismaClient } from "@prisma/client";
 import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { FindScriptRepository } from "../../../repository/ScriptRepository/FindScriptRepository/FindScriptRepository.js";
 
 export class FindScriptUseCase {
-    constructor(private prismaClient: PrismaClient) { }
+    constructor(private findScriptRepository: FindScriptRepository) { }
 
     async execute(id: number) {
 
-        const findScript = await this.prismaClient.products.findFirst({
-            where: {
-                id: id
-            }
-        })
-
-        if (!findScript) {
-
-            throw new BadRequest("Roteiro não existe", "O id do Roteiro não existe, indique um valor valido!")
-
+        if (!id) {
+            throw new BadRequest("Id invalido", "Verifique se o ID informado é valido")
         }
-        return findScript
+
+        const result = this.findScriptRepository.findScript(id)
+
+        return result
+
     }
 }

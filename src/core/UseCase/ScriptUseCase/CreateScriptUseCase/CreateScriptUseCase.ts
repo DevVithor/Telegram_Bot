@@ -1,21 +1,20 @@
-import { PrismaClient } from "@prisma/client";
-import { dataDTO } from "./dataDTO.js";
+import { ScriptDTO } from "../../../../infra/controller/ScriptController/ScriptDTO.js";
+import { CreateScriptRepository } from "../../../repository/ScriptRepository/CreateScriptRepository/CreateScriptReposity.js";
+import { Script } from "../../../entity/Script.js";
+import { BadRequest } from "../../../../middleware/BadRequest.js";
 
 export class CreateScriptUseCase {
-    constructor(private prismaClient: PrismaClient) { }
+    constructor(private createScriptRepository: CreateScriptRepository) { }
 
-    async execute(data: dataDTO) {
+    async execute(data: ScriptDTO): Promise<Script> {
 
-        const createProduct = await this.prismaClient.products.create({
-            data: {
-                link: data.link,
-                product: data.product,
-                descont: data.descont,
-                description: data.description,
-                groupId: data.groupId,
-            }
-        })
+        if (!data) {
+            throw new BadRequest("Informações invalidas", "Verifique se está tudo correto!")
+        }
 
-        return createProduct
+        const result = this.createScriptRepository.createScript(data)
+
+        return result
+
     }
 }
