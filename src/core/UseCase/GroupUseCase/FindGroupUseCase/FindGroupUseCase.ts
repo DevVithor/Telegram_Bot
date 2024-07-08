@@ -1,22 +1,17 @@
-import { PrismaClient } from "@prisma/client";
 import { BadRequest } from "../../../../middleware/BadRequest.js";
-
+import { FindGroupRepository } from "../../../repository/GroupRepository/FindGroupRepository/FindGroupRepository.js";
 
 export class FindGroupUseCase {
-    constructor(private prismaClient: PrismaClient) { }
+    constructor(private findGroupRepository: FindGroupRepository) { }
 
     async execute(id: number) {
 
-        const findGroup = await this.prismaClient.group.findFirst({
-            where: {
-                id
-            }
-        })
-
-        if (!findGroup) {
-            throw new BadRequest("Grupo não existe", "O id do grupo não existe, indique um valor valido!")
+        if (!id) {
+            throw new BadRequest("Numero invalido", "Digite um numero valido!")
         }
 
-        return findGroup
+        const result = await this.findGroupRepository.findGroup(id)
+
+        return result
     }
 }

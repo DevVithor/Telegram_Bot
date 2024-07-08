@@ -1,26 +1,21 @@
-import { PrismaClient } from "@prisma/client";
 import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { DeleteGroupRepository } from "../../../repository/GroupRepository/DeleteGroupRepository/DeleGroupRepository.js";
 
 export class DeleteGroupUseCase {
-    constructor(private prismaClient: PrismaClient) { }
+
+    constructor(private deleteGroupReposity: DeleteGroupRepository) { }
 
     async execute(id: number) {
 
-        const findGroup = await this.prismaClient.group.findFirst({
-            where: {
-                id
-            }
-        })
-        if (!findGroup) {
-            throw new BadRequest("Grupo não existe", "O id do grupo não existe, indique um valor valido!")
+        if (!id) {
+
+            throw new BadRequest("Numero invalido", "Insira um numero valido!")
+
         }
 
-        const deleteGroup = await this.prismaClient.group.delete({
-            where: {
-                id
-            }
-        })
+        const result = await this.deleteGroupReposity.deleteGroup(id)
 
-        return deleteGroup
+        return result
+
     }
 }

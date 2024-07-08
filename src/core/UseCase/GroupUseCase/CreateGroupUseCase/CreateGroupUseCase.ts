@@ -1,29 +1,26 @@
-import { PrismaClient } from "@prisma/client";
 import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { CreateGroupRepository } from "../../../repository/GroupRepository/CreateGroupRepository/CreateGroupRepository.js";
+import { GroupDTO } from "../../../../infra/controller/GroupController/GroupDTO.js";
+import Group from "../../../entity/Group.js";
 
 export class CreateGroupUseCase {
-    constructor(private prismaClient: PrismaClient) { }
+    constructor(private createGroupRepository: CreateGroupRepository) { }
 
-    async execute(name: string, validity: Date) {
+    async execute(data: GroupDTO): Promise<Group> {
 
-        if (!name) {
+        if (!data.name) {
             throw new BadRequest("Necessário um nome!", "Erro acontece quando o usuário não coloca um nome ao seu grupo.")
         }
 
-        const data = new Date()
+        const datas = new Date()
 
-        const definedData = new Date(validity)
+        const definedData = new Date(data.validity)
 
-        if (definedData < data) {
-            throw new BadRequest("Validade inválida!", "A validade foi definda menor que o dia de hoje")
+        if (definedData < datas) {
+            throw new BadRequest("Validade invalida!", "A validade foi definda menor que o dia de hoje")
         }
 
-        const createGroup = await this.prismaClient.group.create({
-            data: {
-                name,
-                validity,
-            }
-        })
+        const createGroup = await this.createGroupRepository.createGroup(data)
 
         return createGroup
     }
