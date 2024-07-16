@@ -11,9 +11,9 @@ export class CreateScriptRepository {
             data: {
                 link: data.link,
                 product: data.product,
-                descont: data.descont,
                 description: data.description,
                 groupId: data.groupId,
+                descont: data.descont
             }
         })
 
