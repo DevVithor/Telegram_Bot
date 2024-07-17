@@ -30,3 +30,20 @@ model Products {
 
   Group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
 }
+
+model Platform {
+  id      Int     @id @default(autoincrement())
+  Stage1  String?
+  Stage2  String?
+  Stage3  String?
+  Stage4  String?
+  Stage5  String?
+  Stage6  String?
+  Stage7  String?
+  Stage8  String?
+  Stage9  String?
+  Stage10 String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
