@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import cron from "node-cron"
 import { GetProductsUseCase } from "../../../../core/UseCase/GetProductsUseCase/GetProductsUseCase.js"
 
 export class GetProductsController {
@@ -6,10 +7,13 @@ export class GetProductsController {
 
     async execute(req: Request, res: Response) {
 
-        const { products, groupId } = req.body
+        const { products, platformId, interval } = req.body
 
-        const result = await this.getProducts.execute(products, groupId)
+        cron.schedule(String(interval), async () => {
 
-        res.status(201).json(result)
+            const result = await this.getProducts.execute(products, platformId)
+            res.status(201).json(result)
+
+        })
     }
 }
