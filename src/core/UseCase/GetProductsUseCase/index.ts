@@ -1,5 +1,5 @@
-import { createScriptRepository } from "../../repository/ScriptRepository/CreateScriptRepository/index.js";
-import { findGroupUseCase } from "../GroupUseCase/FindGroupUseCase/index.js";
+import { findPlatformUseCase } from "../PlatformUseCase/index.js";
+import { startBotUseCase } from "../StartBotUseCase/index.js";
 import { GetProductsUseCase } from "./GetProductsUseCase.js";
 
-export const getProductsUseCase = new GetProductsUseCase(findGroupUseCase, createScriptRepository)
+export const getProductsUseCase = new GetProductsUseCase(findPlatformUseCase, startBotUseCase)

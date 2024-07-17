@@ -1,13 +1,13 @@
 import puppeteer from "puppeteer";
-import { FindGroupUseCase } from "../GroupUseCase/FindGroupUseCase/FindGroupUseCase.js";
-import { BadRequest } from "../../../middleware/BadRequest.js";
-import { CreateScriptRepository } from "../../repository/ScriptRepository/CreateScriptRepository/CreateScriptReposity.js";
-import { ScriptDTO } from "../../../infra/controller/ScriptController/ScriptDTO.js";
+import { FindPlatformUseCase } from "../PlatformUseCase/FindPlatformUseCase.js";
+import { StartBotUseCase } from "../StartBotUseCase/StartBotUseCase.js";
 
 export class GetProductsUseCase {
-    constructor(private findGroup: FindGroupUseCase, private sendDataForRepository: CreateScriptRepository) { }
+    constructor(private findPlatform: FindPlatformUseCase, private startBot: StartBotUseCase) { }
 
-    async execute(products: string, groupId: number) {
+    async execute(products: string, plaformId: number) {
+
+        const platformData = await this.findPlatform.execute(plaformId)
 
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
@@ -16,45 +16,45 @@ export class GetProductsUseCase {
 
         await page.setViewport({ width: 1280, height: 1024 })
 
-        await page.goto("https://www.festval.com/")
+        await page.goto(platformData.Stage1!)
 
-        await page.locator(".vtex-styleguide-9-x-input").fill(products)
+        await page.locator(platformData.Stage2!).fill(products)
 
         await page.keyboard.press("Enter")
 
-        const searchResultSelector = ".vtex-search-result-3-x-galleryItem"
+        const searchResultSelector = platformData.Stage3!
 
         await page.waitForSelector(searchResultSelector)
         await page.click(searchResultSelector)
 
-        const elementOfName = await page.waitForSelector("h1")
+        await page.waitForSelector(platformData.Stage4!)
 
-        const product = await elementOfName?.evaluate(() => {
-            const element = document.querySelector("h1");
-            return element ? element.innerText : null
-        })
+        const product = await page.evaluate((selector) => {
+            const element = document.querySelector(selector);
+            return element ? (element as HTMLElement).innerText : null
+        }, platformData.Stage5!)
 
         if (!product) {
             throw new Error
         }
 
-        const elementOfDescription = await page.waitForSelector("div.vtex-store-components-3-x-productDescriptionText")
+        await page.waitForSelector(platformData.Stage6!)
 
-        const description = await elementOfDescription?.evaluate(() => {
-            const element = document.querySelector("div.vtex-store-components-3-x-productDescriptionText")
+        const description = await page.evaluate((selector) => {
+            const element = document.querySelector(selector)
             return element ? (element as HTMLElement).innerText : null
-        })
+        }, platformData.Stage7!)
 
         if (!description) {
             throw new Error
         }
 
-        const elementOfValue = await page.waitForSelector("span.vtex-product-price-1-x-sellingPrice")
+        await page.waitForSelector(platformData.Stage8!)
 
-        const descont = await elementOfValue?.evaluate(() => {
-            const element = document.querySelector("span.vtex-product-price-1-x-sellingPriceValue")
+        const descont = await page.evaluate((selector) => {
+            const element = document.querySelector(selector)
             return element ? (element as HTMLElement).innerText : null
-        })
+        }, platformData.Stage9!)
 
         if (!descont) {
             throw new Error
@@ -64,17 +64,13 @@ export class GetProductsUseCase {
 
         page.close()
 
-        const { id } = await this.findGroup.execute(groupId)
+        const info = ({ link, product, descont, description })
 
-        if (!id) {
-            throw new BadRequest("Grupo não existe", "informe um grupo valido!")
-        }
+        console.log(info)
 
-        const info: ScriptDTO = ({ link, product, descont, description, groupId })
+        const bot = await this.startBot.execute(info)
 
-        const defineScript = this.sendDataForRepository.createScript(info)
-
-        return defineScript
+        return bot
 
     }
 }
