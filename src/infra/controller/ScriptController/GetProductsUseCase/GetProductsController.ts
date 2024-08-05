@@ -7,7 +7,12 @@ export class GetProductsController {
 
     async execute(req: Request, res: Response) {
 
-        const { products, platformId, interval } = req.body
+        const { platformId, interval } = req.body
+        const products = req.body
+
+        for (let i = 0; products.length > i; i++) {
+            console.log(products[i])
+        }
 
         cron.schedule(String(interval), async () => {
 
