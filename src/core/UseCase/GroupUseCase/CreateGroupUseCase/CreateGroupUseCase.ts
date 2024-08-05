@@ -1,4 +1,4 @@
-import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { BadRequest } from "../../../../middleware/Error/BadRequest.js";
 import { CreateGroupRepository } from "../../../repository/GroupRepository/CreateGroupRepository/CreateGroupRepository.js";
 import { GroupDTO } from "../../../../infra/controller/GroupController/GroupDTO.js";
 import Group from "../../../entity/Group.js";

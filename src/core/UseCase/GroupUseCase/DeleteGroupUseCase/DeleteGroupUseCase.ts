@@ -1,4 +1,4 @@
-import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { BadRequest } from "../../../../middleware/Error/BadRequest.js";
 import { DeleteGroupRepository } from "../../../repository/GroupRepository/DeleteGroupRepository/DeleGroupRepository.js";
 
 export class DeleteGroupUseCase {

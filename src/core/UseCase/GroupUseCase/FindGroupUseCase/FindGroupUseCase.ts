@@ -1,4 +1,4 @@
-import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { BadRequest } from "../../../../middleware/Error/BadRequest.js";
 import { FindGroupRepository } from "../../../repository/GroupRepository/FindGroupRepository/FindGroupRepository.js";
 
 export class FindGroupUseCase {
