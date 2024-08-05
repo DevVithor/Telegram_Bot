@@ -1,4 +1,4 @@
-import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { BadRequest } from "../../../../middleware/Error/BadRequest.js";
 import { FindScriptRepository } from "../../../repository/ScriptRepository/FindScriptRepository/FindScriptRepository.js";
 
 export class FindScriptUseCase {

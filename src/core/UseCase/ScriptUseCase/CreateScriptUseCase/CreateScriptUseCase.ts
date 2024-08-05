@@ -1,7 +1,7 @@
 import { ScriptDTO } from "../../../../infra/controller/ScriptController/ScriptDTO.js";
 import { CreateScriptRepository } from "../../../repository/ScriptRepository/CreateScriptRepository/CreateScriptReposity.js";
 import { Script } from "../../../entity/Script.js";
-import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { BadRequest } from "../../../../middleware/Error/BadRequest.js";
 
 export class CreateScriptUseCase {
     constructor(private createScriptRepository: CreateScriptRepository) { }

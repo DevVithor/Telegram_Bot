@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { BadRequest } from "../../../../middleware/BadRequest.js";
+import { BadRequest } from "../../../../middleware/Error/BadRequest.js";
 
 export class FindScriptRepository {
     constructor(private prismaClient: PrismaClient) { }
