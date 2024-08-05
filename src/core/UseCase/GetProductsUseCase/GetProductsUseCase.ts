@@ -9,7 +9,7 @@ export class GetProductsUseCase {
 
         const platformData = await this.findPlatform.execute(plaformId)
 
-        const browser = await puppeteer.launch()
+        const browser = await puppeteer.launch({ headless: "shell" })
         const page = await browser.newPage()
 
         page.setDefaultTimeout(60000)
@@ -19,7 +19,6 @@ export class GetProductsUseCase {
         await page.goto(platformData.Stage1!)
 
         await page.locator(platformData.Stage2!).fill(products)
-
         await page.keyboard.press("Enter")
 
         const searchResultSelector = platformData.Stage3!
@@ -71,6 +70,6 @@ export class GetProductsUseCase {
         const bot = await this.startBot.execute(info)
 
         return bot
-
     }
+
 }
