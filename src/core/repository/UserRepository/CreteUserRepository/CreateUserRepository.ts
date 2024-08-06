@@ -5,15 +5,15 @@ import { UserDTO } from "../../../../infra/controller/UserController/UserDTO.js"
 export class CreateUserRepository {
     constructor(private database: PrismaClient) { }
 
-    async validation(phone: string) {
+    async validation(email: string) {
 
-        const findPhone = await this.database.user.findFirst({
+        const findEmail = await this.database.user.findFirst({
             where: {
-                phone
+                email
             }
         })
 
-        return findPhone
+        return findEmail
     }
 
     async execute(data: UserDTO) {

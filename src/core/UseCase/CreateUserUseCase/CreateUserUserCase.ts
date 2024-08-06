@@ -1,22 +1,16 @@
 import { UserDTO } from "../../../infra/controller/UserController/UserDTO.js";
 import { BadRequest } from "../../../middleware/Error/BadRequest.js";
 import { CreateUserRepository } from "../../repository/UserRepository/CreteUserRepository/CreateUserRepository.js";
-
+import bcrypt from "bcrypt"
 
 export class CreateUserUseCase {
     constructor(private userRepository: CreateUserRepository) { }
 
     async execute(data: UserDTO) {
-        const validationPhone = await this.userRepository.validation(data.phone)
+        const validationEmail = await this.userRepository.validation(data.email)
 
-        if (validationPhone) {
-            throw new BadRequest("Numero já existe!", "Esse numero já esta cadastrado")
-        }
-
-        if (data.phone.length > 13) {
-
-            throw new BadRequest("Numero invalido!", "Digite apenas os numeros!")
-
+        if (validationEmail) {
+            throw new BadRequest("Email já existe!", "Esse Email já foi cadastrado!")
         }
 
         if (data.password.length > 20) {
@@ -25,9 +19,15 @@ export class CreateUserUseCase {
 
         }
 
+        const hashPassword = await bcrypt.hash(data.password, 10)
+
+        data.password = hashPassword
+
         const result = await this.userRepository.execute(data)
 
-        return result
+        const { password: _, ...user } = result
+
+        return user
 
     }
 
