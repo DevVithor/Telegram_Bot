@@ -8,8 +8,6 @@ export class CreateUserController {
 
         const data = req.body
 
-        console.log(data)
-
         const result = await this.userUseCase.execute(data)
         res.status(201).json(result)
 
